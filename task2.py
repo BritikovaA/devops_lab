@@ -4,7 +4,7 @@
 word = input()
 k = 0
 for i in range(len(word) // 2):
-    if(word[i] != word[- 1 - i]):
+    if word[i] != word[- 1 - i]:
         k = 1
 if k == 0:
     print("yes")

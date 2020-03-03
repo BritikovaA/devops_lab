@@ -2,7 +2,7 @@
 # coding: utf-8
 
 num = int(input())
-if (num >= 0 and num <= 9):
+if num >= 0 and num <= 9:
     print(num)
 digits = []
 for i in range(9, 1, -1):
