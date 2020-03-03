@@ -18,11 +18,11 @@ This package displays the following host information:
 3) git clone *repository*
 4) python3 setup.py bdist_wheel --universal
 5) pip install dist/snapshot*.whl
-6) Enter "snapshot"(or other version, you can find it below)
-7) In your current directory will appear json/txt with info about host.
+6) enter "snapshot"(or other version, you can find it below)
+7) in your current directory will appear json/txt with info about host.
 
 ## How to uninstall package
-1) Enter pip uninstall snapshot*.whl
+1) enter pip uninstall snapshot*.whl
 
 ## Examples of use:
 + snapshot txt 5
