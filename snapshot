@@ -1,0 +1,84 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+import json
+import time
+import psutil
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument("type_of_data", const=1, default='txt', nargs="?")
+parser.add_argument("time_interval",const=1, default=300, nargs="?")
+args = parser.parse_args()
+
+snapshot_number = 0
+
+
+class SystemInfo:
+
+    def __init__(self): # __init__
+        pass
+
+    def __str__(self):  # __str__
+        return "SNAPSHOT " + "," + "TIME STAMP: " + str(time.ctime()) + " CPU:" + self.overall_cpu_load() + "%" + " MEMORY: " + self.overall_memory_usage() + "% VIRTUAL_MEMORY: " + self.overall_vm_usage() + "% IO_info: " + self.io_info() + " NET_info: " + self.network_info() + '\n'
+
+    def overall_cpu_load(self):  # overall cpu load
+        return str(psutil.cpu_percent())
+
+    def overall_memory_usage(self):  # overall memory usage
+         return str(psutil.disk_usage('/').percent)
+
+    def overall_vm_usage(self):  # overall virtual memory usage
+        return str(psutil.virtual_memory().percent)
+
+    def io_info(self):  # io information
+        return str(psutil.disk_io_counters())
+
+    def network_info(self):   # network information
+        return str(psutil.net_io_counters().packets_sent)
+
+    def to_json(self):  # write in json-file
+        global snapshot_number
+        snapshot_number += 1
+        mess = {
+                'SNAPSHOT': str(snapshot_number), 'Time STAMP': str(time.ctime()),
+                'CPU': self.overall_cpu_load(),
+                'MEMORY': self.overall_memory_usage(),
+                'VIRTUAL_MEMORY': self.overall_vm_usage(),
+                'IO_info': self.io_info(),
+                'NET_info': self.network_info()
+            }
+        try:
+            with open('data.json', 'a') as file:
+                json_system = json.dumps(mess, indent=5)
+                file.write(json_system)
+                file.close()
+        except IOError:
+            with open('data.json', 'w') as file:
+                json_system = json.dumps(mess, indent=5)
+                file.write(json_system)
+                file.close()
+
+    def to_txt(self):  # write in txt-file
+        global snapshot_number
+        snapshot_number += 1
+        mess = "SNAPSHOT " + str(snapshot_number) + ": " + "TIME STAMP: " + str(time.ctime()) + " CPU:" + self.overall_cpu_load() + "%" + " MEMORY: " + self.overall_memory_usage() + "% VIRTUAL_MEMORY: " + self.overall_vm_usage() + "% IO_info: " + self.io_info() + " NET_info: " + self.network_info() + '\n'
+        try:
+            with open('data.txt', 'a') as file:
+                file.write(mess)
+                file.close()
+        except IOError:
+            with open('data.txt', 'w') as file:
+                file.write(mess)
+                file.close()
+
+
+def looop(system): #for different type of file
+        if args.type_of_data == 'json':
+            system.to_json()
+        elif args.type_of_data == 'txt':
+            system.to_txt()
+system = SystemInfo()
+while 1:
+    looop(system)
+    time.sleep(int(args.time_interval))
