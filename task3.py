@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-string = input().split(' ')
+string = input().split()
 newstr = []
 for i in range(len(string)):
     newstr.append(string[i][::-1])
