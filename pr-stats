@@ -1,0 +1,50 @@
+#!/usr/bin/env python
+
+import requests
+import getpass
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--user", help="Write a user of repo", required=True, nargs=1)
+parser.add_argument("--repo", help="Write a name of repo", required=True, nargs=1)
+parser.add_argument("--number", help="Write a number of pull request", required=True, nargs=1)
+parser.add_argument("--version", action="version", help="Number of version", version='v1.0 by Anastasiya Brytsikava')
+parser.add_argument("--created_at", action="store_true", help="Hour of the day opened pull request")
+parser.add_argument("--closed_at", action="store_true", help="Hour of the day closed pull request")
+parser.add_argument("--user_pr", action="store_true", help="User who opened pull request")
+parser.add_argument("--commits", action="store_true", help="Number of comments")
+parser.add_argument("--labels", action="store_true", help="Attached labels")
+args = parser.parse_args()
+
+print("Enter your githab user-name: ")
+user = input()
+print("And password: ")
+try:
+    pas = getpass.getpass()
+except Exception as err:
+    print("You don't enter password", err)
+
+r = requests.get('https://api.github.com/repos/' + args.user[0] + '/' + args.repo[0] + '/pulls/' + args.number[0], auth=(user, pas))
+
+rec = r.json()
+
+if args.created_at:
+    print("Hour of the day opened: " + str(rec['created_at'][11:19]))
+
+if args.closed_at:
+    if rec['closed_at'] is None:
+        print("Hour of the day closed: No closed")
+    else:
+        print("Hour of the day closed: " + rec['closed_at'][11:19])
+
+if args.user_pr:
+    print("User who opened: " + rec['user']['login'])
+
+if args.commits:
+    print("Number of commits: " + str(rec['commits']))
+
+if args.labels:
+    lab = "Attached labels: "
+    for i in range(len(rec['labels'])):
+        lab = lab + rec['labels'][i]['name'] + "; "
+    print(lab)
