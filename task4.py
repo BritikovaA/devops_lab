@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+
 def func(num):
     if num >= 0 and num <= 9:
         return num
@@ -17,6 +18,7 @@ def func(num):
     else:
         return k
 
+
 if __name__ == "__main__":
-  n = int(input("Input number:"))
-  print(func(n))
+    n = int(input("Input number:"))
+    print(func(n))

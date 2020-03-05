@@ -1,10 +1,7 @@
-
 from unittest import TestCase
 
-import os
-print(os.getcwd())
-
 import task4
+
 
 class MyTest(TestCase):
 
@@ -19,5 +16,3 @@ class MyTest(TestCase):
 
     def tearDown(self):
         pass
-  
-
