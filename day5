@@ -15,12 +15,13 @@ parser.add_argument("--output_data", action="store_true", help="Order output by 
 args = parser.parse_args()
 
 def rec(path):
+    li=[]
     for root,dirs,files in os.walk(path):
         for i in files:
-            print(os.path.join(root,i))
+            li.append(os.path.join(root, i))
+    return(li)
 
 def list_files_ext(spis,extension):
-    print('Files with extension:')
     for file in spis:
         if file.endswith('.' + extension):
             print(os.path.abspath(file))
@@ -41,8 +42,7 @@ def func():
 
 
     if args.list_file_rec:
-        print('List files recursive:')
-        print(rec(args.path))
+        tmp = rec(args.path)
  
 
     if args.output_data:
