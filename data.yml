@@ -1,0 +1,11 @@
+apache_vhosts:
+- sn: www.domain1.tld
+  dr: /www/domain1
+  sa: www-admin1@foo.example.com
+  dir: /usr/local/httpd/htdocs1
+
+- sn: www.domain2.tld
+  dr: /www/domain2
+  sa: www-admin2@foo.example.com
+  dir: /usr/local/httpd/htdocs2
+
